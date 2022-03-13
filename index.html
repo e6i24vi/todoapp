@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Vue.js App</title>
+        <link rel="stylesheet" href="./main.css">
+    </head>
+    <body>
+        <div id="app">
+           <div v-if="editIndex!==-1">
+            <h2>編集してください</h2>
+              <p>ID:{{editIndex}}</p>
+              <p>コメント:{{beforeComment}}</p>
+              <input type="text" v-model="editComment" ref="comment">
+               <button type="submit" v-on:click="setItems">{{changeButtonText}}</button>
+           </div>
+           <div v-else>
+             <h2>入力してください</h2>
+                コメント<input type="text" v-model="editComment" ref="comment">
+                <button type="submit" v-on:click="setItems">{{changeButtonText}}</button>
+           </div>
+            <h2 v-else> 新しい作業の追加</h2>
+                
+            <table>
+                <thead>
+                    <tr>
+                        <th class="id">ID</th>
+                        <th class="comment">コメント</th>
+                        <th class="state">状態</th>
+                        <th class="button">-</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="todo in todos" v-bind:key="todo.id">
+                        <td>{{todo.id}}</td>
+                        <td>{{todo.comment}}</td>
+                        <td class="state">
+                            <button v-on:click="doChangeState(todo)">
+                                {{labels[todo.state]}}
+                            </button>
+                        </td>
+                        <td><button v-on:click="doEdit(todo)">編集</button></td>
+                        <td class="button">
+                            <button v-on:click="doRemove(todo)">
+                              削除
+                            </button>
+                         </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="./main.js"></script>
+    </body>
+</html>
