@@ -3,22 +3,21 @@
     <head>
         <meta charset="utf-8">
         <title>Vue.js App</title>
-        <link rel="stylesheet" href="./main.css">
     </head>
     <body>
         <div id="app">
            <div v-if="editIndex!==-1">
             <h2>編集してください</h2>
               <p>ID:{{editIndex}}</p>
-              <p>コメント:{{beforeComment}}</p>
-              <input type="text" v-model="editComment" ref="comment">
-               <button type="submit" v-on:click="setItems">{{changeButtonText}}</button>
+              <p>コメント:{{todos[editIndex].comment}}</p>
+              <input type="text" v-model="editComment">
+               <button type="submit" v-on:click="editItems">{{changeButtonText}}</button>
            </div>
            <div v-else>
              <h2>入力してください</h2>
-                コメント<input type="text" v-model="editComment" ref="comment">
-                <button type="submit" v-on:click="setItems">{{changeButtonText}}</button>
-           </div>
+                コメント<input type="text" v-model="editComment">
+                <button type="submit" v-on:click="addItems">{{changeButtonText}}</button>
+            </div>
             <h2 v-else> 新しい作業の追加</h2>
                 
             <table>
@@ -31,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="todo in todos" v-bind:key="todo.id">
+                    <tr v-for="todo in todos" :key="todo.id">
                         <td>{{todo.id}}</td>
                         <td>{{todo.comment}}</td>
                         <td class="state">
