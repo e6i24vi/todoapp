@@ -16,12 +16,11 @@ let todoStorage = {
     }
 }
  
-
 const app = new Vue({
     el: '#app',
     data: {
         todos: [],
-        editIndex:-1,
+        editIndex:null,
         editComment:null,
         options:[
             {value: 0, label: '作業中'},
@@ -47,7 +46,7 @@ const app = new Vue({
             },{})
         },
         changeButtonText() {
-            return this.editIndex === -1 ? "追加" : "編集";
+            return this.editIndex!==null ? "編集":"追加" ;
         }
   
     },
@@ -65,17 +64,15 @@ const app = new Vue({
             this.cancel()
         },
         editItems:function(){
-            this.todos.splice(this.editIndex,1,{
-                id: this.editIndex,
-                comment:this.editComment,
-                state:this.state
-            })
+            const todo = this.todos[this.editIndex];
+            if(todo === null)return;
+            todo.comment = this.editComment;
+            
             this.cancel()
         },
         cancel(){
             this.editComment=null;
-            this.editIndex=-1;
-            this.state=0;
+            this.editIndex=null;
         },
         doChangeState:function(todo){
             todo.state = todo.state ? 0 : 1 ;
@@ -86,8 +83,6 @@ const app = new Vue({
         },
         doEdit:function(todo){
             this.editIndex=this.todos.indexOf(todo)
-            this.todos[this.editIndex].comment=todo.comment
-            this.state=todo.state
         }
     }
 })
